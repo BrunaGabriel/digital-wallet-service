@@ -1,15 +1,14 @@
 package org.brunagabriel.service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.GET;
 
 import org.brunagabriel.dto.WalletRequest;
+import org.brunagabriel.dto.CreateWalletResponse;
 import org.brunagabriel.dto.WalletResponse;
 import org.brunagabriel.entity.WalletEntity;
 import org.brunagabriel.repository.WalletRepository;
@@ -29,13 +28,13 @@ public class WalletService {
 //    }
 
     @Transactional
-    public WalletResponse save (WalletRequest request){
+    public CreateWalletResponse save (WalletRequest request){
         WalletEntity wallet=new WalletEntity();
         wallet.setEmail(request.email());
         wallet.setBalance(request.amount());
         wallet.setCreatedAt(LocalDateTime.now());
         repository.persist(wallet);
-        return WalletResponse.fromWallet(wallet);
+        return CreateWalletResponse.fromWallet(wallet);
     }
 
     @Transactional
@@ -45,8 +44,11 @@ public class WalletService {
     }
 
     @Transactional
-    public List<WalletEntity> searchWallet() {
-        return repository.listAll();
+    public List<WalletResponse> searchWallet() {
+        List<WalletEntity> wallets = repository.listAll();
+        return wallets.stream()
+                .map(WalletResponse::fromWallet)
+                .toList();
     }
 
     @Transactional

@@ -13,8 +13,8 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 
 import org.brunagabriel.dto.WalletRequest;
+import org.brunagabriel.dto.CreateWalletResponse;
 import org.brunagabriel.dto.WalletResponse;
-import org.brunagabriel.entity.WalletEntity;
 import org.brunagabriel.service.WalletService;
 
 @ApplicationScoped
@@ -24,12 +24,12 @@ public class WalletController {
     private WalletService service;
 
     @POST
-    public WalletResponse createWallet(@Valid WalletRequest request){ //força as validaçoes do NotNull e posityive
+    public CreateWalletResponse createWallet(@Valid WalletRequest request){ //força as validaçoes do NotNull e posityive
         return service.save(request);
     }
 
     @GET
-    public List<WalletEntity> searchWallet(){
+    public List<WalletResponse> searchWallet(){
         return service.searchWallet();
     }
 
