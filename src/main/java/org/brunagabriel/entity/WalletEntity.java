@@ -9,7 +9,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-import org.brunagabriel.dto.WalletRequest;
 import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
@@ -20,25 +19,15 @@ public class WalletEntity {
     @GeneratedValue
     private Long id;
 
-    @Column(nullable = false, unique = true) // não pode ser  null
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
     private BigDecimal balance;
 
     @Column(nullable = false)
-    @CreationTimestamp //vai preencher automaticamente com a data de criação
+    @CreationTimestamp
     private LocalDateTime createdAt;
-
-    //é um mapper - mapeia o dto para a nossa classe
-    //static - podemos usar sem instanciar a classe
-//    public static WalletEntity toWallet(WalletRequest request){
-//        WalletEntity wallet = new WalletEntity();
-//        wallet.setEmail(request.email());
-//        wallet.setBalance(request.amount());
-//        return wallet;
-//    }
-
 
     public WalletEntity() {
     }

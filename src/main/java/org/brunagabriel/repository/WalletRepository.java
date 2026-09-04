@@ -8,5 +8,9 @@ import org.brunagabriel.entity.WalletEntity;
 
 @ApplicationScoped
 public class WalletRepository implements PanacheRepository<WalletEntity> {
+
+    public boolean findByEmail(String email) {
+        return count("email", email)>0;
+    }
     //Panache é como um pacote de funcionalidades
 }

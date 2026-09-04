@@ -1,9 +1,9 @@
 package org.brunagabriel.controller;
 
+import java.net.URI;
 import java.util.List;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -11,6 +11,7 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.core.Response;
 
 import org.brunagabriel.dto.WalletRequest;
 import org.brunagabriel.dto.CreateWalletResponse;
@@ -20,12 +21,17 @@ import org.brunagabriel.service.WalletService;
 @ApplicationScoped
 @Path("/wallets")
 public class WalletController {
-    @Inject
-    private WalletService service;
+
+    private final WalletService service;
+
+    public WalletController(WalletService walletService){
+        this.service = walletService;
+    }
 
     @POST
-    public CreateWalletResponse createWallet(@Valid WalletRequest request){ //força as validaçoes do NotNull e posityive
-        return service.save(request);
+    public Response createWallet(@Valid WalletRequest request){
+        CreateWalletResponse created =service.save(request);
+        return Response.created(URI.create("/wallets/"+created.id())).entity(created).build();
     }
 
     @GET
